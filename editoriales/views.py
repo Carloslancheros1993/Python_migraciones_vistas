@@ -1,7 +1,8 @@
 from django.core.exceptions import ObjectDoesNotExist
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
 from editoriales.models import Editorial
 from editoriales.serializer import EditorialSerializer, CreateEditorialSerializer
@@ -59,3 +60,15 @@ def detalle_editorial(request, editorial_id):
     if request.method == 'DELETE':
         editorial.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class EditorialGenericView(generics.ListCreateAPIView):
+    queryset = Editorial.objects.all()
+    serializer_class = EditorialSerializer
+
+class EditorialDetailGenericView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Editorial.objects.all()
+    serializer_class = EditorialSerializer
+
+class EditorialViewSet(ModelViewSet):
+    queryset = Editorial.objects.all()
+    serializer_class = EditorialSerializer

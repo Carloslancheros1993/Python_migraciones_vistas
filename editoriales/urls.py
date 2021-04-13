@@ -1,9 +1,10 @@
+from django.db import router
 from django.urls import path
+from rest_framework.routers import DefaultRouter
 
-from editoriales.views import listar_editoriales, detalle_editorial
+from editoriales.views import EditorialViewSet
 
-app_name = 'editoriales'
-urlpatterns = [
-    path('', listar_editoriales),
-    path('<int:editorial_id>/', detalle_editorial),
-]
+router = DefaultRouter()
+router.register('', EditorialViewSet)
+
+urlpatterns = router.urls
